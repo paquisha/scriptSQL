@@ -42,7 +42,7 @@ INSERT INTO Venta VALUES(@idProducto,@cantidad,getdate())
 
 
 ------total de ventas y descripcion de producto--------
-EXEC SP_SEL_Ventas 1
+EXEC SP_SEL_Ventas
 
 ALTER PROC SP_SEL_Ventas(
 	@idProducto int = 0
@@ -55,4 +55,18 @@ if @idProducto > 0
 	ON P.idProducto = V.idProducto
 	WHERE V.idProducto = @idProducto
 else
-	SELECT * FROM Venta
+	SELECT * FROM Venta V
+	INNER JOIN Producto P
+	ON P.idProducto = V.idProducto
+
+
+-------------obtener el total de ventas------------------------
+EXEC SP_SEL_VentasTotales
+
+
+ALTER PROC SP_SEL_VentasTotales
+AS
+
+SELECT SUM(precio * cantidad) VentasTotales FROM Venta  V
+INNER JOIN Producto P
+ON P.idProducto = V.idProducto
