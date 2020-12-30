@@ -70,3 +70,24 @@ AS
 SELECT SUM(precio * cantidad) VentasTotales FROM Venta  V
 INNER JOIN Producto P
 ON P.idProducto = V.idProducto
+
+
+----procedimiento para actualizar las ventas------
+select  * from Venta
+
+EXEC SP_UPD_Ventas 1,1,50,'2020-12-30'
+
+
+CREATE PROC SP_UPD_Ventas(
+	@idVenta int,
+	@idProducto int,
+	@cantidad int,
+	@fechaVenta datetime
+)
+AS
+
+UPDATE Venta
+SET idProducto = @idProducto,
+cantidad = @cantidad,
+fechaVenta = @fechaVenta
+WHERE idVenta = @idVenta
