@@ -39,3 +39,20 @@ CREATE PROC SP_INS_Venta(
 AS
 
 INSERT INTO Venta VALUES(@idProducto,@cantidad,getdate())
+
+
+------total de ventas y descripcion de producto--------
+EXEC SP_SEL_Ventas 1
+
+ALTER PROC SP_SEL_Ventas(
+	@idProducto int = 0
+
+)
+AS
+if @idProducto > 0
+	SELECT * FROM Venta V
+	INNER JOIN Producto P
+	ON P.idProducto = V.idProducto
+	WHERE V.idProducto = @idProducto
+else
+	SELECT * FROM Venta
